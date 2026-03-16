@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我爱你</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0a;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      font-family: 'Arial', sans-serif;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    #container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .love-text {
+      display: inline-block;
+      font-size: 1.4rem;
+      font-weight: bold;
+      padding: 6px 10px;
+      animation: float var(--duration) ease-in-out infinite;
+      animation-delay: var(--delay);
+      opacity: 0;
+      text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+    }
+
+    @keyframes float {
+      0%   { opacity: 0; transform: translateY(10px) scale(0.8); }
+      20%  { opacity: 1; transform: translateY(-4px) scale(1.05); }
+      50%  { opacity: 0.85; transform: translateY(0px) scale(1); }
+      80%  { opacity: 1; transform: translateY(-6px) scale(1.05); }
+      100% { opacity: 0; transform: translateY(10px) scale(0.8); }
+    }
+
+    #center-heart {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 8rem;
+      animation: heartbeat 1.2s ease-in-out infinite;
+      z-index: 10;
+      filter: drop-shadow(0 0 30px #ff4d6d) drop-shadow(0 0 60px #ff4d6d);
+      pointer-events: none;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      15%       { transform: translate(-50%, -50%) scale(1.25); }
+      30%       { transform: translate(-50%, -50%) scale(1); }
+      45%       { transform: translate(-50%, -50%) scale(1.15); }
+      60%       { transform: translate(-50%, -50%) scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+<div id="container"></div>
+<div id="center-heart">❤️</div>
+
+<script>
+  // 粒子背景
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const particles = [];
+  const colors = ['#ff4d6d','#ff758f','#ff85a1','#ffc2d1','#ffb3c6','#ff6b9d','#c77dff','#ff9de2'];
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.r = Math.random() * 3 + 1;
+      this.color = colors[Math.floor(Math.random() * colors.length)];
+      this.speedY = -(Math.random() * 0.8 + 0.3);
+      this.speedX = (Math.random() - 0.5) * 0.5;
+      this.alpha = Math.random() * 0.6 + 0.2;
+    }
+    update() {
+      this.y += this.speedY;
+      this.x += this.speedX;
+      if (this.y < -10) this.reset();
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  for (let i = 0; i < 150; i++) particles.push(new Particle());
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+
+  // 满屏文字
+  const container = document.getElementById('container');
+  const texts = ['我爱你', '❤️', 'I Love You', '爱你', '么么哒', '❤', '你是我的宝贝', '爱❤'];
+  const colorsArr = ['#ff4d6d','#ff758f','#ff85a1','#ffc2d1','#c77dff','#ff9de2','#ffb347','#ff6b9d'];
+
+  const cols = Math.floor(window.innerWidth / 90);
+  const rows = Math.floor(window.innerHeight / 55);
+  const total = cols * rows;
+
+  for (let i = 0; i < total; i++) {
+    const span = document.createElement('span');
+    span.className = 'love-text';
+    span.textContent = texts[Math.floor(Math.random() * texts.length)];
+    span.style.color = colorsArr[Math.floor(Math.random() * colorsArr.length)];
+    span.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+    span.style.setProperty('--delay', (Math.random() * 4) + 's');
+    span.style.width = (100 / cols) + 'vw';
+    span.style.textAlign = 'center';
+    container.appendChild(span);
+  }
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+</script>
+</body>
+</html>
