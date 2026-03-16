@@ -67,6 +67,19 @@
       pointer-events: none;
     }
 
+    #heart-bg {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(10,10,10,0.95) 40%, transparent 75%);
+      z-index: 9;
+      pointer-events: none;
+    }
+
     @keyframes heartbeat {
       0%, 100% { transform: translate(-50%, -50%) scale(1); }
       15%       { transform: translate(-50%, -50%) scale(1.25); }
@@ -80,6 +93,7 @@
 
 <canvas id="canvas"></canvas>
 <div id="container"></div>
+<div id="heart-bg"></div>
 <div id="center-heart">❤️</div>
 
 <script>
@@ -130,7 +144,21 @@
 
   // 满屏文字
   const container = document.getElementById('container');
-  const texts = ['我爱你', '❤️', 'I Love You', '爱你', '么么哒', '❤', '你是我的宝贝', '爱❤', '许若愚', '郑云潇', '许若愚爱郑云潇', 'Daniel loves Melody'];
+  const texts = [
+    '我爱你', '❤️', 'I Love You', '爱你', '么么哒', '❤',
+    '你是我的宝贝', '爱❤', '许若愚', '郑云潇', '许若愚爱郑云潇',
+    'Daniel loves Melody',
+    'Je t\'aime',       // 法语
+    'Te amo',           // 西班牙语
+    'Ti amo',           // 意大利语
+    'Ich liebe dich',   // 德语
+    'Я тебя люблю',     // 俄语
+    'أحبك',             // 阿拉伯语
+    '사랑해',            // 韩语
+    'あなたを愛してる',   // 日语
+    'Eu te amo',        // 葡萄牙语
+    'ฉันรักคุณ',         // 泰语
+  ];
   const colorsArr = ['#ff4d6d','#ff758f','#ff85a1','#ffc2d1','#c77dff','#ff9de2','#ffb347','#ff6b9d'];
 
   const cols = Math.floor(window.innerWidth / 110);
