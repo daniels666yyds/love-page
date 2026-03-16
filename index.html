@@ -30,6 +30,8 @@
       align-content: flex-start;
       overflow: hidden;
       pointer-events: none;
+      gap: 4px 8px;
+      padding: 4px;
     }
 
     .love-text {
@@ -42,7 +44,7 @@
       opacity: 0;
       text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
       white-space: nowrap;
-      overflow: hidden;
+      flex-shrink: 0;
     }
 
     @keyframes float {
@@ -142,8 +144,6 @@
     span.style.color = colorsArr[Math.floor(Math.random() * colorsArr.length)];
     span.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
     span.style.setProperty('--delay', (Math.random() * 4) + 's');
-    span.style.width = (100 / cols) + 'vw';
-    span.style.textAlign = 'center';
     container.appendChild(span);
   }
 
