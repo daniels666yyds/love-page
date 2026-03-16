@@ -13,18 +13,24 @@
       width: 100vw;
       height: 100vh;
       font-family: 'Arial', sans-serif;
+      position: fixed;
+      top: 0;
+      left: 0;
     }
 
     canvas {
       position: fixed;
       top: 0;
       left: 0;
+      width: 100%;
+      height: 100%;
     }
 
     #container {
       position: fixed;
       top: 0; left: 0;
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-wrap: wrap;
       align-content: flex-start;
@@ -148,36 +154,40 @@
     '我爱你', '❤️', 'I Love You', '爱你', '么么哒', '❤',
     '你是我的宝贝', '爱❤', '许若愚', '郑云潇', '许若愚爱郑云潇',
     'Daniel loves Melody',
-    'Je t\'aime',       // 法语
-    'Te amo',           // 西班牙语
-    'Ti amo',           // 意大利语
-    'Ich liebe dich',   // 德语
-    'Я тебя люблю',     // 俄语
-    'أحبك',             // 阿拉伯语
-    '사랑해',            // 韩语
-    'あなたを愛してる',   // 日语
-    'Eu te amo',        // 葡萄牙语
-    'ฉันรักคุณ',         // 泰语
+    'Je t\'aime',
+    'Te amo',
+    'Ti amo',
+    'Ich liebe dich',
+    'Я тебя люблю',
+    'أحبك',
+    '사랑해',
+    'あなたを愛してる',
+    'Eu te amo',
+    'ฉันรักคุณ',
   ];
   const colorsArr = ['#ff4d6d','#ff758f','#ff85a1','#ffc2d1','#c77dff','#ff9de2','#ffb347','#ff6b9d'];
 
-  const cols = Math.floor(window.innerWidth / 110);
-  const rows = Math.floor(window.innerHeight / 45);
-  const total = cols * rows;
-
-  for (let i = 0; i < total; i++) {
-    const span = document.createElement('span');
-    span.className = 'love-text';
-    span.textContent = texts[Math.floor(Math.random() * texts.length)];
-    span.style.color = colorsArr[Math.floor(Math.random() * colorsArr.length)];
-    span.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
-    span.style.setProperty('--delay', (Math.random() * 4) + 's');
-    container.appendChild(span);
+  function fillScreen() {
+    container.innerHTML = '';
+    // 多生成200%高度的内容确保铺满
+    const totalItems = Math.ceil((window.innerWidth / 100) * (window.innerHeight / 40) * 2.5);
+    for (let i = 0; i < totalItems; i++) {
+      const span = document.createElement('span');
+      span.className = 'love-text';
+      span.textContent = texts[Math.floor(Math.random() * texts.length)];
+      span.style.color = colorsArr[Math.floor(Math.random() * colorsArr.length)];
+      span.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+      span.style.setProperty('--delay', (Math.random() * 4) + 's');
+      container.appendChild(span);
+    }
   }
+
+  fillScreen();
 
   window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    fillScreen();
   });
 </script>
 </body>
